@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>vision board ~ kiyomi journal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-image: url('visionboard.png.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      font-family: 'Caveat', cursive;
+      padding: 20px;
+      overflow-y: scroll;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      background: rgba(212, 83, 138, 0.7);
+      padding: 6px 16px;
+      border-radius: 30px;
+      transition: transform 0.2s;
+    }
+
+    nav a:hover { transform: scale(1.08); background: #d4538a; }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3.5rem;
+      color: #7c3aed;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+    }
+
+    .upload-area {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .upload-label {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      background: white;
+      color: #d4538a;
+      border: 3px dashed #d4538a;
+      border-radius: 20px;
+      padding: 14px 30px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .upload-label:hover { transform: scale(1.05); background: #fff0f8; }
+
+    input[type="file"] { display: none; }
+
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      max-width: 900px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 12px 12px 40px 12px;
+      border-radius: 4px;
+      box-shadow: 4px 4px 16px rgba(0,0,0,0.15);
+      width: 200px;
+      transform: rotate(var(--rot));
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    .polaroid:hover { transform: rotate(0deg) scale(1.05); z-index: 10; }
+
+    .polaroid img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 2px;
+      display: block;
+    }
+
+    .polaroid input {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      border: none;
+      outline: none;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: #555;
+      background: transparent;
+    }
+
+    .polaroid .delete-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #ff6b8a;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .polaroid:hover .delete-btn { display: flex; }
+
+    .save-btn {
+      display: block;
+      margin: 0 auto 30px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      background: #d4538a;
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .save-btn:hover { transform: scale(1.08); }
+
+    .empty-msg {
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">🏠 home</a>
+    <a href="about.html">🌸 about</a>
+    <a href="journal.html">📖 journal</a>
+    <a href="mood.html">🌙 mood</a>
+    <a href="playlist.html">🎵 playlist</a>
+  </nav>
+
+  <h1>✨ my vision board ✨</h1>
+
+  <div class="upload-area">
+    <label class="upload-label" for="imgUpload">
+      🌸 upload your dream pictures!
+    </label>
+    <input type="file" id="imgUpload" accept="image/*" multiple onchange="addPhotos(event)"/>
+  </div>
+
+  <button class="save-btn" onclick="saveBoard()">💾 save my board!</button>
+
+  <div class="board" id="board">
+    <p class="empty-msg" id="emptyMsg">upload your dreams here ~ 🦋</p>
+  </div>
+
+  <script>
+    const rotations = [-4, -2, 0, 2, 4, -3, 3, -1, 1];
+    let cardCount = 0;
+
+    function addPhotos(event) {
+      const files = event.target.files;
+      document.getElementById('emptyMsg').style.display = 'none';
+
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          createPolaroid(e.target.result, '');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function createPolaroid(src, caption) {
+      const board = document.getElementById('board');
+      const rot = rotations[cardCount % rotations.length];
+      cardCount++;
+
+      const card = document.createElement('div');
+      card.className = 'polaroid';
+      card.style.setProperty('--rot', rot + 'deg');
+
+      card.innerHTML = `
+        <img src="${src}" alt="vision" />
+        <input type="text" placeholder="my dream..." value="${caption}" />
+        <button class="delete-btn" onclick="this.parentElement.remove()">✕</button>
+      `;
+
+      board.appendChild(card);
+    }
+
+    function saveBoard() {
+      const cards = document.querySelectorAll('.polaroid');
+      const data = [];
+      cards.forEach(card => {
+        const img = card.querySelector('img').src;
+        const caption = card.querySelector('input').value;
+        data.push({ img, caption });
+      });
+      localStorage.setItem('visionboard', JSON.stringify(data));
+      alert('vision board saved!! 💖');
+    }
+
+    window.onload = () => {
+      const saved = localStorage.getItem('visionboard');
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (data.length > 0) {
+          document.getElementById('emptyMsg').style.display = 'none';
+          data.forEach(item => createPolaroid(item.img, item.caption));
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+8:35 AM
+<!DOCTYPE html> <html lang="en"> <head> <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;700&display=swap" rel="stylesheet"/> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>about me ~ kiyomi journal</title> <style> * { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background-image: url('aboutme.png.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  font-family: 'Caveat', cursive;
+  padding: 20px;
+  overflow-y: scroll;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+nav a {
+  font-family: 'Fredoka One', cursive;
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  background: rgba(212, 83, 138, 0.7);
+  padding: 6px 16px;
+  border-radius: 30px;
+  transition: transform 0.2s;
+}
+
+nav a:hover { transform: scale(1.08); background: #d4538a; }
+
+h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 4.5rem;
+  color: #7c3aed;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+}
+
+.page-wrap {
+  background: rgba(255, 235, 245, 0.85);
+  border-radius: 24px;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 25px;
+}
+
+.top-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.basic-info { display: flex; flex-direction: column; gap: 10px; }
+
+.pill-field {
+  background: white;
+  border: 2px solid #d4b0f0;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pill-field input {
+  border: none; outline: none;
+  font-family: 'Caveat', cursive;
+  font-size: 1.1rem; width: 100%;
+  color: #333; background: transparent;
+}
+
+.hobbies-box { background: #ffc8d8; border-radius: 20px; padding: 14px; }
+.hobbies-box h3 { font-family: 'Fredoka One', cursive; font-size: 1rem; color: #555; margin-bottom: 8px; text-align: center; }
+.hobbies-box textarea { width: 100%; height: 100px; background: transparent; border: none; outline: none; font-family: 'Caveat', cursive; font-size: 1.1rem; resize: none; color: #333; }
+
+.favorites-box { background: white; border: 2px solid #d4b0f0; border-radius: 16px; padding: 14px; margin-bottom: 16px; }
+.favorites-box h3 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #7c3aed; text-align: center; margin-bottom: 10px; }
+
+.fav-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; border-bottom: 2px dotted #d4b0f0; padding-bottom: 6px; }
+.fav-row label { font-family: 'Fredoka One', cursive; font-size: 0.95rem; color: #555; min-width: 70px; }
+.fav-row input { border: none; outline: none; font-family: 'Caveat', cursive; font-size: 1.1rem; width: 100%; color: #333; background: transparent; }
+
+.mid-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+.from-box { background: #b8cef0; border-radius: 16px; padding: 14px; background-image: radial-gradient(circle, rgba(255,255,255,0.4) 1px, transparent 1px); background-size: 12px 12px; }
+.from-box h3 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #333; margin-bottom: 8px; }
+.from-box input { border: none; outline: none; font-family: 'Caveat', cursive; font-size: 1.2rem; width: 100%; background: transparent; color: #333; }
+
+.fact-box { background: #e8f5c0; border-radius: 50px; padding: 14px 20px; display: flex; flex-direction: column; justify-content: center; }
+.fact-box h3 { font-family: 'Fredoka One', cursive; font-size: 1rem; color: #555; margin-bottom: 6px; }
+.fact-box input { border: none; outline: none; font-family: 'Caveat', cursive; font-size: 1.1rem; width: 100%; background: transparent; color: #333; }
+
+.bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+
+.like-box { background: #e8c8f0; border-radius: 16px; padding: 14px; }
+.like-box h3 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #555; margin-bottom: 8px; }
+.like-box textarea { width: 100%; height: 90px; background: transparent; border: none; outline: none; font-family: 'Caveat', cursive; font-size: 1.1rem; resize: none; color: #333; }
+
+.dislike-box { background: white; border: 2px dashed #d4b0f0; border-radius: 16px; padding: 14px; }
+.dislike-box h3 { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: #555; margin-bottom: 8px; }
+.dislike-box textarea { width: 100%; height: 90px; background: transparent; border: none; outline: none; font-family: 'Caveat', cursive; font-size: 1.1rem; resize: none; color: #333; }
+
+.save-btn { display: block; margin: 0 auto; font-family: 'Fredoka One', cursive; font-size: 1.2rem; background: #d4538a; color: white; border: none; padding: 12px 35px; border-radius: 30px; cursor: pointer; transition: transform 0.2s; }
+.save-btn:hover { transform: scale(1.08); }
+</style> </head> <body> <nav> <a href="index.html">🏠 home</a> <a href="journal.html">📖 journal</a> <a href="vision.html">🌈 vision</a> <a href="mood.html">🌙 mood</a> <a href="playlist.html">🎵 playlist</a> </nav> <h1>ABOUT ME</h1> <div class="page-wrap"> <div class="top-row"> <div class="basic-info"> <div class="pill-field"><span>🎂 BIRTHDAY</span><input type="text" placeholder="your birthday..." id="birthday"/></div> <div class="pill-field"><span>🌸 NAME</span><input type="text" placeholder="your name..." id="name"/></div> <div class="pill-field"><span>✨ AGE</span><input type="text" placeholder="your age..." id="age"/></div> </div> <div class="hobbies-box"> <h3>MY HOBBIES</h3> <textarea placeholder="write your hobbies here..." id="hobbies"></textarea> </div> </div>
+<div class="favorites-box">
+  <h3>MY FAVORITE .. 🌸</h3>
+  <div class="fav-row"><label>COLOR :</label><input type="text" placeholder="..." id="fav-color"/></div>
+  <div class="fav-row"><label>FOOD :</label><input type="text" placeholder="..." id="fav-food"/></div>
+  <div class="fav-row"><label>PET :</label><input type="text" placeholder="..." id="fav-pet"/></div>
+  <div class="fav-row"><label>MUSIC :</label><input type="text" placeholder="..." id="fav-music"/></div>
+  <div class="fav-row"><label>MOVIE :</label><input type="text" placeholder="..." id="fav-movie"/></div>
+  <div class="fav-row"><label>SEASON :</label><input type="text" placeholder="..." id="fav-season"/></div>
+  <div class="fav-row"><label>PLACE :</label><input type="text" placeholder="..." id="fav-place"/></div>
+  <div class="fav-row"><label>SPORTS :</label><input type="text" placeholder="..." id="fav-sports"/></div>
+  <div class="fav-row" style="border:none;"><label>SUBJECT :</label><input type="text" placeholder="..." id="fav-subject"/></div>
+</div>
+
+<div class="mid-row">
+  <div class="from-box">
+    <h3>I am from</h3>
+    <input type="text" placeholder="your city / country..." id="from"/>
+  </div>
+  <div class="fact-box">
+    <h3>Fun fact:</h3>
+    <input type="text" placeholder="something fun about you..." id="funfact"/>
+  </div>
+</div>
+
+<div class="bottom-row">
+  <div class="like-box">
+    <h3>I LIKE</h3>
+    <textarea placeholder="things you love..." id="likes"></textarea>
+  </div>
+  <div class="dislike-box">
+    <h3>I don't like:</h3>
+    <textarea placeholder="things you don't like..." id="dislikes"></textarea>
+  </div>
+</div>
+
+<button class="save-btn" onclick="saveAll()">💾 save!</button>
+</div> <script> const fields = ['birthday','name','age','hobbies','fav-color','fav-food','fav-pet', 'fav-music','fav-movie','fav-season','fav-place','fav-sports','fav-subject', 'from','funfact','likes','dislikes']; function saveAll() { fields.forEach(id => { const el = document.getElementById(id); if (el) localStorage.setItem('about_' + id, el.value); }); alert('saved!! 💖'); } window.onload = () => { fields.forEach(id => { const el = document.getElementById(id); const saved = localStorage.getItem('about_' + id); if (el && saved) el.value = saved; }); } </script> </body> </html>
+
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>journal ~ kiyomi journal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-image: url('journal5.png.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      font-family: 'Caveat', cursive;
+      padding: 20px;
+      overflow-y: scroll;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      background: rgba(212, 83, 138, 0.7);
+      padding: 6px 16px;
+      border-radius: 30px;
+      transition: transform 0.2s;
+    }
+
+    nav a:hover { transform: scale(1.08); background: #d4538a; }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3.5rem;
+      color: #7c3aed;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+    }
+
+    .journal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .journal-card {
+      background: rgba(255,255,255,0.85);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s;
+      display: block;
+    }
+
+    .journal-card:hover { transform: translateY(-5px) scale(1.03); border-color: #d4538a; }
+
+    .journal-card .icon { font-size: 3rem; margin-bottom: 10px; }
+
+    .journal-card h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: #d4538a;
+      margin-bottom: 6px;
+    }
+
+    .journal-card p {
+      font-size: 1rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">🏠 home</a>
+    <a href="about.html">🌸 about</a>
+    <a href="vision.html">🌈 vision</a>
+    <a href="mood.html">🌙 mood</a>
+    <a href="playlist.html">🎵 playlist</a>
+  </nav>
+
+  <h1>📖 my journal</h1>
+
+  <div class="journal-grid">
+    <a href="journal-daily.html" class="journal-card">
+      <div class="icon">🌸</div>
+      <h2>daily diary</h2>
+      <p>write about your day~</p>
+    </a>
+    <a href="journal-gratitude.html" class="journal-card">
+      <div class="icon">💖</div>
+      <h2>gratitude</h2>
+      <p>things you're thankful for~</p>
+    </a>
+    <a href="journal-goals.html" class="journal-card">
+      <div class="icon">⭐</div>
+      <h2>goals</h2>
+      <p>dream it, achieve it~</p>
+    </a>
+    <a href="journal-weekly.html" class="journal-card">
+      <div class="icon">📅</div>
+      <h2>weekly reflection</h2>
+      <p>how was your week~</p>
+    </a>
+  </div>
+
+</body>
+</html>

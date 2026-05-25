@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>mood tracker ~ kiyomi journal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-image: url('bg.jpg.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      font-family: 'Caveat', cursive;
+      padding: 20px;
+      overflow-y: scroll;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      background: rgba(212, 83, 138, 0.7);
+      padding: 6px 16px;
+      border-radius: 30px;
+      transition: transform 0.2s;
+    }
+
+    nav a:hover { transform: scale(1.08); background: #d4538a; }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3rem;
+      color: #7c3aed;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* mood picker */
+    .mood-picker {
+      background: rgba(255,255,255,0.88);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .mood-picker h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      color: #d4538a;
+      margin-bottom: 16px;
+    }
+
+    .moods-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .mood-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 14px;
+      border: 3px solid transparent;
+      transition: transform 0.15s, border-color 0.15s;
+      background: none;
+    }
+
+    .mood-btn:hover { transform: scale(1.1); }
+    .mood-btn.selected { border-color: #d4538a; background: #fff0f8; transform: scale(1.1); }
+
+    .mood-btn img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+
+    .mood-btn span {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.85rem;
+      color: #555;
+    }
+
+    .note-input {
+      width: 100%;
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      padding: 10px 14px;
+      border: 2px solid #d4b0f0;
+      border-radius: 12px;
+      outline: none;
+      margin-bottom: 12px;
+      background: white;
+      resize: none;
+    }
+
+    .save-btn {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      background: #d4538a;
+      color: white;
+      border: none;
+      padding: 10px 28px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .save-btn:hover { transform: scale(1.08); }
+
+    /* calendar */
+    .calendar-wrap {
+      background: rgba(255,255,255,0.88);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .cal-header h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      color: #7c3aed;
+    }
+
+    .cal-nav {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1rem;
+      background: white;
+      border: 2px solid #d4b0f0;
+      color: #7c3aed;
+      padding: 4px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .cal-nav:hover { transform: scale(1.08); background: #f0e8ff; }
+
+    .cal-days-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .cal-days-header span {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.8rem;
+      color: #d4538a;
+      text-align: center;
+    }
+
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #888;
+      background: #f9f0ff;
+      position: relative;
+      cursor: default;
+    }
+
+    .cal-day.today {
+      border: 2px solid #d4538a;
+      color: #d4538a;
+      font-weight: bold;
+    }
+
+    .cal-day.empty { background: transparent; }
+
+    .cal-day img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .cal-day .day-num {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.75rem;
+      color: #aaa;
+    }
+
+    /* past moods list */
+    .past-wrap {
+      background: rgba(255,255,255,0.88);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .past-wrap h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      color: #d4538a;
+      margin-bottom: 12px;
+    }
+
+    .past-entry {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      border: 2px solid #f0c0e0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+
+    .past-entry img { width: 40px; height: 40px; object-fit: contain; }
+
+    .past-entry .past-info { flex: 1; }
+    .past-entry .past-date { font-family: 'Fredoka One', cursive; font-size: 0.85rem; color: #d4538a; }
+    .past-entry .past-mood-name { font-family: 'Fredoka One', cursive; font-size: 1rem; color: #7c3aed; }
+    .past-entry .past-note { font-size: 1rem; color: #555; }
+
+    .empty-msg { text-align: center; color: #ccc; font-size: 1rem; padding: 10px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">🏠 home</a>
+    <a href="about.html">🌸 about</a>
+    <a href="journal.html">📖 journal</a>
+    <a href="vision.html">🌈 vision</a>
+    <a href="playlist.html">🎵 playlist</a>
+  </nav>
+
+  <h1>🌙 mood tracker</h1>
+
+  <div class="wrap">
+
+    <!-- mood picker -->
+    <div class="mood-picker">
+      <h2>how are you feeling today? 🌸</h2>
+      <div class="moods-row">
+        <button class="mood-btn" onclick="selectMood('happy','happy.png.jpg')">
+          <img src="happy.png.jpg" /><span>happy</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('sad','sad.png.jpg')">
+          <img src="sad.png.jpg" /><span>sad</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('angry','angry.png.jpg')">
+          <img src="angry.png.jpg" /><span>angry</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('tired','tired.png.jpg')">
+          <img src="tired.png.jpg" /><span>tired</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('anxious','anxious.png.jpg')">
+          <img src="anxious.png.jpg" /><span>anxious</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('loved','loved.png.jpg')">
+          <img src="loved.png.jpg" /><span>loved</span>
+        </button>
+        <button class="mood-btn" onclick="selectMood('excited','excited.png.jpg')">
+          <img src="excited.png.jpg" /><span>excited</span>
+        </button>
+      </div>
+
+      <textarea class="note-input" id="moodNote" rows="2" placeholder="add a little note about your day..."></textarea>
+      <button class="save-btn" onclick="saveMood()">💾 log my mood!</button>
+    </div>
+
+    <!-- calendar -->
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <button class="cal-nav" onclick="changeMonth(-1)">← prev</button>
+        <h2 id="calTitle"></h2>
+        <button class="cal-nav" onclick="changeMonth(1)">next →</button>
+      </div>
+      <div class="cal-days-header">
+        <span>sun</span><span>mon</span><span>tue</span><span>wed</span>
+        <span>thu</span><span>fri</span><span>sat</span>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+
+    <!-- past moods -->
+    <div class="past-wrap">
+      <h2>📖 past moods</h2>
+      <div id="pastList"></div>
+    </div>
+
+  </div>
+
+  <script>
+    let selectedMoodName = '';
+    let selectedMoodImg = '';
+    let currentDate = new Date();
+
+    function selectMood(name, img) {
+      selectedMoodName = name;
+      selectedMoodImg = img;
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+    }
+
+    function saveMood() {
+      if (!selectedMoodName) { alert('pick a mood first! 🌸'); return; }
+      const note = document.getElementById('moodNote').value;
+      const entry = {
+        date: new Date().toISOString().split('T')[0],
+        mood: selectedMoodName,
+        img: selectedMoodImg,
+        note
+      };
+      const entries = JSON.parse(localStorage.getItem('mood_entries') || '[]');
+      // replace if same date exists
+      const idx = entries.findIndex(e => e.date === entry.date);
+      if (idx > -1) entries[idx] = entry;
+      else entries.unshift(entry);
+      localStorage.setItem('mood_entries', JSON.stringify(entries));
+      document.getElementById('moodNote').value = '';
+      selectedMoodName = '';
+      selectedMoodImg = '';
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      renderCalendar();
+      renderPast();
+      alert('mood logged!! 💖');
+    }
+
+    function changeMonth(dir) {
+      currentDate.setMonth(currentDate.getMonth() + dir);
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const entries = JSON.parse(localStorage.getItem('mood_entries') || '[]');
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+      document.getElementById('calTitle').textContent = `${months[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = new Date().toISOString().split('T')[0];
+
+      const grid = document.getElementById('calGrid');
+      grid.innerHTML = '';
+
+      // empty cells
+      for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'cal-day empty';
+        grid.appendChild(empty);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const entry = entries.find(e => e.date === dateStr);
+        const cell = document.createElement('div');
+        cell.className = 'cal-day' + (dateStr === today ? ' today' : '');
+
+        if (entry) {
+          cell.innerHTML = `<img src="${entry.img}" title="${entry.mood}${entry.note ? ': '+entry.note : ''}"/><span class="day-num">${d}</span>`;
+        } else {
+          cell.innerHTML = `<span class="day-num">${d}</span>`;
+        }
+
+        grid.appendChild(cell);
+      }
+    }
+
+    function renderPast() {
+      const entries = JSON.parse(localStorage.getItem('mood_entries') || '[]');
+      const list = document.getElementById('pastList');
+      if (!entries.length) {
+        list.innerHTML = '<div class="empty-msg">no moods logged yet ~ 🌙</div>';
+        return;
+      }
+      list.innerHTML = entries.slice(0, 10).map(e => `
+        <div class="past-entry">
+          <img src="${e.img}" />
+          <div class="past-info">
+            <div class="past-date">${e.date}</div>
+            <div class="past-mood-name">${e.mood}</div>
+            ${e.note ? `<div class="past-note">${e.note}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderCalendar();
+    renderPast();
+  </script>
+
+</body>
+</html>

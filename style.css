@@ -1,0 +1,61 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background-image: url('bg.jpg.jpg');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Georgia', cursive;
+  overflow-y: scroll;
+}
+
+h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 4rem;
+  color: #d4538a;
+  text-align: center;
+}
+
+.girl {
+  display: block;
+  margin: 0 auto 0 30%;
+  height: 320px;
+  mix-blend-mode: multiply;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+nav a {
+  font-family: 'Fredoka One', cursive;
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  background: rgba(212, 83, 138, 0.6);
+  padding: 8px 20px;
+  border-radius: 30px;
+}
+
+nav a:hover { background: #d4538a; }
+
+.enter-btn {
+  display: block;
+  margin: 10px auto;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.5rem;
+  color: white;
+  background: #d4538a;
+  border: none;
+  padding: 12px 35px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(212, 83, 138, 0.4);
+  transition: transform 0.2s;
+}
+
+.enter-btn:hover { transform: scale(1.08); }

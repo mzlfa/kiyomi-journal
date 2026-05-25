@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>weekly ~ kiyomi journal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background-image: url('journal4.png.jpg'); background-size: cover; background-position: center; min-height: 100vh; font-family: 'Caveat', cursive; padding: 20px; overflow-y: scroll; }
+    nav { display: flex; justify-content: center; gap: 10px; padding: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    nav a { font-family: 'Fredoka One', cursive; color: white; text-decoration: none; font-size: 1rem; background: rgba(212, 83, 138, 0.7); padding: 6px 16px; border-radius: 30px; transition: transform 0.2s; }
+    nav a:hover { transform: scale(1.08); background: #d4538a; }
+    h1 { font-family: 'Fredoka One', cursive; font-size: 3rem; color: #7c3aed; text-align: center; margin-bottom: 20px; text-shadow: 3px 3px 0px rgba(255,255,255,0.5); }
+    .card { background: rgba(255,255,255,0.88); border: 3px dashed #d4b0f0; border-radius: 20px; max-width: 600px; margin: 0 auto; padding: 25px; }
+    .card label { font-family: 'Fredoka One', cursive; font-size: 1rem; color: #7c3aed; display: block; margin-bottom: 6px; margin-top: 14px; }
+    .card textarea { width: 100%; font-family: 'Caveat', cursive; font-size: 1.1rem; padding: 10px; border: 2px solid #d4b0f0; border-radius: 12px; resize: none; outline: none; background: white; }
+    .rating { display: flex; gap: 8px; margin-bottom: 16px; }
+    .rating span { font-size: 1.8rem; cursor: pointer; transition: transform 0.15s; }
+    .rating span:hover { transform: scale(1.3); }
+    .deco-sticker { position: fixed; width: 80px; pointer-events: none; opacity: 0.85; z-index: 0; }
+    .sticker-tray { display: flex; flex-wrap: wrap; gap: 8px; background: rgba(255,255,255,0.7); border: 2px dashed #d4b0f0; border-radius: 14px; padding: 10px; margin-bottom: 10px; }
+    .sticker-pick-img { width: 50px; height: 50px; object-fit: contain; cursor: pointer; border-radius: 8px; border: 2px solid transparent; transition: transform 0.15s; }
+    .sticker-pick-img:hover { transform: scale(1.25); border-color: #d4538a; }
+    .picked-stickers { min-height: 60px; background: #fff0f8; border-radius: 10px; padding: 8px; margin-bottom: 16px; border: 2px dashed #f0a0c8; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .picked-stickers img { width: 45px; height: 45px; object-fit: contain; }
+    .tray-hint { color: #ccc; font-size: 0.95rem; }
+    .save-btn { font-family: 'Fredoka One', cursive; font-size: 1.1rem; background: #d4538a; color: white; border: none; padding: 10px 28px; border-radius: 30px; cursor: pointer; transition: transform 0.2s; margin-top: 14px; }
+    .save-btn:hover { transform: scale(1.08); }
+    .back-btn { font-family: 'Fredoka One', cursive; font-size: 1.1rem; background: white; color: #7c3aed; border: 2px solid #7c3aed; padding: 10px 28px; border-radius: 30px; cursor: pointer; transition: transform 0.2s; text-decoration: none; display: inline-block; margin-top: 14px; margin-left: 10px; }
+    .entries { margin-top: 24px; }
+    .entry-card { background: white; border: 2px solid #f0c0e0; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+    .entry-card h3 { font-family: 'Fredoka One', cursive; color: #d4538a; margin-bottom: 8px; }
+    .entry-card p { font-size: 1.05rem; color: #555; margin-bottom: 4px; }
+    .entry-stickers img { width: 35px; height: 35px; object-fit: contain; }
+  </style>
+</head>
+<body>
+
+  <img src="sticker11.png.jpg" class="deco-sticker" style="top:5%;left:1%;transform:rotate(-15deg)"/>
+  <img src="sticker12.png.jpg" class="deco-sticker" style="top:12%;right:1%;transform:rotate(10deg)"/>
+  <img src="sticker13.png.jpg" class="deco-sticker" style="bottom:15%;left:1%;transform:rotate(5deg)"/>
+  <img src="sticker14.png.jpg" class="deco-sticker" style="bottom:8%;right:1%;transform:rotate(-10deg)"/>
+
+  <nav>
+    <a href="index.html">🏠 home</a>
+    <a href="journal.html">📖 journal</a>
+    <a href="vision.html">🌈 vision</a>
+    <a href="mood.html">🌙 mood</a>
+    <a href="playlist.html">🎵 playlist</a>
+  </nav>
+
+  <h1>📅 weekly reflection</h1>
+
+  <div class="card">
+    <label>⭐ rate your week</label>
+    <div class="rating" id="rating">
+      <span onclick="setRating(1)">☆</span>
+      <span onclick="setRating(2)">☆</span>
+      <span onclick="setRating(3)">☆</span>
+      <span onclick="setRating(4)">☆</span>
+      <span onclick="setRating(5)">☆</span>
+    </div>
+
+    <label>🌸 highlight of the week</label>
+    <textarea id="highlight" rows="3" placeholder="best thing that happened..."></textarea>
+
+    <label>💭 what did you learn?</label>
+    <textarea id="learned" rows="3" placeholder="something new you discovered..."></textarea>
+
+    <label>🌙 what do you want to improve?</label>
+    <textarea id="improve" rows="3" placeholder="next week i want to..."></textarea>
+
+    <label>🌸 sticker tray — click to add!</label>
+    <div class="sticker-tray">
+      <img src="sticker1.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker1.png.jpg')"/>
+      <img src="sticker2.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker2.png.jpg')"/>
+      <img src="sticker3.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker3.png.jpg')"/>
+      <img src="sticker4.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker4.png.jpg')"/>
+      <img src="sticker5.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker5.png.jpg')"/>
+      <img src="sticker6.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker6.png.jpg')"/>
+      <img src="sticker7.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker7.png.jpg')"/>
+      <img src="sticker8.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker8.png.jpg')"/>
+      <img src="sticker9.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker9.png.jpg')"/>
+      <img src="sticker10.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker10.png.jpg')"/>
+      <img src="sticker11.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker11.png.jpg')"/>
+      <img src="sticker12.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker12.png.jpg')"/>
+      <img src="sticker13.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker13.png.jpg')"/>
+      <img src="sticker14.png.jpg" class="sticker-pick-img" onclick="addSticker('sticker14.png.jpg')"/>
+    </div>
+    <div class="picked-stickers" id="pickedStickers">
+      <span class="tray-hint">tap a sticker to add ~</span>
+    </div>
+
+    <button class="save-btn" onclick="saveWeekly()">💾 save!</button>
+    <a href="journal.html" class="back-btn">← back</a>
+
+    <div class="entries" id="weeklyList"></div>
+  </div>
+
+  <script>
+    let selectedRating = 0;
+    let stickers = [];
+
+    function setRating(n) {
+      selectedRating = n;
+      document.querySelectorAll('.rating span').forEach((s, i) => {
+        s.textContent = i < n ? '⭐' : '☆';
+      });
+    }
+
+    function addSticker(src) {
+      stickers.push(src);
+      const tray = document.getElementById('pickedStickers');
+      const hint = tray.querySelector('.tray-hint');
+      if (hint) hint.remove();
+      const img = document.createElement('img');
+      img.src = src;
+      tray.appendChild(img);
+    }
+
+    function saveWeekly() {
+      const highlight = document.getElementById('highlight').value;
+      const learned = document.getElementById('learned').value;
+      const improve = document.getElementById('improve').value;
+      if (!highlight && !learned && !improve) { alert('fill in something first! 🌸'); return; }
+      const entries = JSON.parse(localStorage.getItem('weekly_entries') || '[]');
+      entries.unshift({ date: new Date().toISOString().split('T')[0], rating: selectedRating, highlight, learned, improve, stickers: [...stickers] });
+      localStorage.setItem('weekly_entries', JSON.stringify(entries));
+      document.getElementById('highlight').value = '';
+      document.getElementById('learned').value = '';
+      document.getElementById('improve').value = '';
+      selectedRating = 0;
+      stickers = [];
+      document.getElementById('pickedStickers').innerHTML = '<span class="tray-hint">tap a sticker to add ~</span>';
+      document.querySelectorAll('.rating span').forEach(s => s.textContent = '☆');
+      loadWeekly();
+      alert('saved!! 💖');
+    }
+
+    function loadWeekly() {
+      const entries = JSON.parse(localStorage.getItem('weekly_entries') || '[]');
+      document.getElementById('weeklyList').innerHTML = entries.map(e => `
+        <div class="entry-card">
+          <h3>${'⭐'.repeat(e.rating)}${'☆'.repeat(5-e.rating)} · ${e.date}</h3>
+          ${e.highlight ? `<p>🌸 ${e.highlight}</p>` : ''}
+          ${e.learned ? `<p>💭 ${e.learned}</p>` : ''}
+          ${e.improve ? `<p>🌙 ${e.improve}</p>` : ''}
+          <div class="entry-stickers">${e.stickers ? e.stickers.map(s => `<img src="${s}"/>`).join('') : ''}</div>
+        </div>
+      `).join('');
+    }
+
+    loadWeekly();
+  </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Caveat:wght@400;700&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>playlist ~ kiyomi journal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-image: url('player.png.jpg');
+      background-size: cover;
+      background-position: center;
+      min-height: 100vh;
+      font-family: 'Caveat', cursive;
+      padding: 20px;
+      overflow-y: scroll;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      font-family: 'Fredoka One', cursive;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      background: rgba(212, 83, 138, 0.7);
+      padding: 6px 16px;
+      border-radius: 30px;
+      transition: transform 0.2s;
+    }
+
+    nav a:hover { transform: scale(1.08); background: #d4538a; }
+
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3rem;
+      color: #7c3aed;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 0px rgba(255,255,255,0.5);
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* spotify embed */
+    .spotify-wrap {
+      background: rgba(255,255,255,0.88);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .spotify-wrap h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      color: #d4538a;
+      margin-bottom: 14px;
+    }
+
+    .spotify-wrap iframe {
+      border-radius: 16px;
+      width: 100%;
+      border: none;
+    }
+
+    /* add song form */
+    .add-song-wrap {
+      background: rgba(255,255,255,0.88);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .add-song-wrap h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      color: #d4538a;
+      margin-bottom: 14px;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .song-input {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      padding: 8px 14px;
+      border: 2px solid #d4b0f0;
+      border-radius: 12px;
+      outline: none;
+      background: white;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .mood-tag-select {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      padding: 8px 14px;
+      border: 2px solid #d4b0f0;
+      border-radius: 12px;
+      outline: none;
+      background: white;
+      cursor: pointer;
+    }
+
+    .add-btn {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.1rem;
+      background: #d4538a;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .add-btn:hover { transform: scale(1.08); }
+
+    /* song cards */
+    .songs-wrap {
+      background: rgba(255,255,255,0.88);
+      border: 3px dashed #d4b0f0;
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .songs-wrap h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.2rem;
+      color: #d4538a;
+      margin-bottom: 14px;
+    }
+
+    .songs-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .song-card {
+      background: white;
+      border: 2px solid #f0c0e0;
+      border-radius: 16px;
+      padding: 14px;
+      width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      transition: transform 0.2s;
+    }
+
+    .song-card:hover { transform: translateY(-4px); }
+
+    .song-card .album-art {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ffd6e8, #e8d6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+
+    .song-card .song-name {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.2;
+    }
+
+    .song-card .song-artist {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .mood-tag {
+      display: inline-block;
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 20px;
+      width: fit-content;
+    }
+
+    .mood-tag.chill { background: #d6eeff; color: #3b9eff; }
+    .mood-tag.happy { background: #fff0a0; color: #b38600; }
+    .mood-tag.sad { background: #e8d6ff; color: #7c3aed; }
+    .mood-tag.hype { background: #ffd6e8; color: #d4538a; }
+    .mood-tag.romantic { background: #ffd6f0; color: #c026d3; }
+    .mood-tag.study { background: #d6ffec; color: #059669; }
+
+    .song-card .yt-link {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.8rem;
+      color: #d4538a;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .song-card .yt-link:hover { text-decoration: underline; }
+
+    .song-card .delete-song {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #ff6b8a;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .song-card:hover .delete-song { display: flex; }
+
+    .empty-msg {
+      text-align: center;
+      color: #ccc;
+      font-size: 1rem;
+      padding: 20px;
+      width: 100%;
+    }
+
+    .filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .filter-btn {
+      font-family: 'Fredoka One', cursive;
+      font-size: 0.85rem;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 2px solid #d4b0f0;
+      background: white;
+      color: #7c3aed;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: #d4538a;
+      color: white;
+      border-color: #d4538a;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html">🏠 home</a>
+    <a href="about.html">🌸 about</a>
+    <a href="journal.html">📖 journal</a>
+    <a href="vision.html">🌈 vision</a>
+    <a href="mood.html">🌙 mood</a>
+  </nav>
+
+  <h1>🎵 my playlist</h1>
+
+  <div class="wrap">
+
+    <!-- spotify embed -->
+    <div class="spotify-wrap">
+      <h2>🎧 now playing ~</h2>
+      <iframe
+        src="https://open.spotify.com/embed/playlist/5r93FS7n8WDvVAzELWVwyx"
+        height="380"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+    </div>
+
+    <!-- add song -->
+    <div class="add-song-wrap">
+      <h2>✨ add a song to my list</h2>
+      <div class="form-row">
+        <input class="song-input" type="text" id="songName" placeholder="song name..." />
+        <input class="song-input" type="text" id="songArtist" placeholder="artist..." />
+      </div>
+      <div class="form-row">
+        <input class="song-input" type="text" id="songYt" placeholder="youtube link (optional)..." />
+        <select class="mood-tag-select" id="songMood">
+          <option value="chill">🌊 chill</option>
+          <option value="happy">☀️ happy</option>
+          <option value="sad">🌧 sad</option>
+          <option value="hype">🔥 hype</option>
+          <option value="romantic">💕 romantic</option>
+          <option value="study">📚 study</option>
+        </select>
+        <button class="add-btn" onclick="addSong()">+ add!</button>
+      </div>
+    </div>
+
+    <!-- songs grid -->
+    <div class="songs-wrap">
+      <h2>🎀 my songs</h2>
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="filterSongs('all', this)">all</button>
+        <button class="filter-btn" onclick="filterSongs('chill', this)">🌊 chill</button>
+        <button class="filter-btn" onclick="filterSongs('happy', this)">☀️ happy</button>
+        <button class="filter-btn" onclick="filterSongs('sad', this)">🌧 sad</button>
+        <button class="filter-btn" onclick="filterSongs('hype', this)">🔥 hype</button>
+        <button class="filter-btn" onclick="filterSongs('romantic', this)">💕 romantic</button>
+        <button class="filter-btn" onclick="filterSongs('study', this)">📚 study</button>
+      </div>
+      <div class="songs-grid" id="songsGrid"></div>
+    </div>
+
+  </div>
+
+  <script>
+    const moodEmojis = { chill: '🌊', happy: '☀️', sad: '🌧', hype: '🔥', romantic: '💕', study: '📚' };
+    const moodLabels = { chill: 'chill', happy: 'happy', sad: 'sad', hype: 'hype', romantic: 'romantic', study: 'study' };
+    let currentFilter = 'all';
+
+    function addSong() {
+      const name = document.getElementById('songName').value.trim();
+      const artist = document.getElementById('songArtist').value.trim();
+      const yt = document.getElementById('songYt').value.trim();
+      const mood = document.getElementById('songMood').value;
+      if (!name) { alert('add a song name first! 🌸'); return; }
+      const songs = JSON.parse(localStorage.getItem('playlist_songs') || '[]');
+      songs.unshift({ id: Date.now(), name, artist, yt, mood });
+      localStorage.setItem('playlist_songs', JSON.stringify(songs));
+      document.getElementById('songName').value = '';
+      document.getElementById('songArtist').value = '';
+      document.getElementById('songYt').value = '';
+      renderSongs();
+    }
+
+    function deleteSong(id) {
+      let songs = JSON.parse(localStorage.getItem('playlist_songs') || '[]');
+      songs = songs.filter(s => s.id !== id);
+      localStorage.setItem('playlist_songs', JSON.stringify(songs));
+      renderSongs();
+    }
+
+    function filterSongs(mood, btn) {
+      currentFilter = mood;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSongs();
+    }
+
+    function renderSongs() {
+      let songs = JSON.parse(localStorage.getItem('playlist_songs') || '[]');
+      if (currentFilter !== 'all') songs = songs.filter(s => s.mood === currentFilter);
+      const grid = document.getElementById('songsGrid');
+      if (!songs.length) {
+        grid.innerHTML = '<div class="empty-msg">no songs yet ~ add some! 🎵</div>';
+        return;
+      }
+      grid.innerHTML = songs.map(s => `
+        <div class="song-card">
+          <button class="delete-song" onclick="deleteSong(${s.id})">✕</button>
+          <div class="album-art">${moodEmojis[s.mood]}</div>
+          <div class="song-name">${s.name}</div>
+          ${s.artist ? `<div class="song-artist">~ ${s.artist}</div>` : ''}
+          <span class="mood-tag ${s.mood}">${moodEmojis[s.mood]} ${moodLabels[s.mood]}</span>
+          ${s.yt ? `<a class="yt-link" href="${s.yt}" target="_blank">▶ watch on youtube</a>` : ''}
+        </div>
+      `).join('');
+    }
+
+    renderSongs();
+  </script>
+
+</body>
+</html>
