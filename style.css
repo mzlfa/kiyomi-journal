@@ -59,3 +59,10 @@ nav a:hover { background: #d4538a; }
 }
 
 .enter-btn:hover { transform: scale(1.08); }
+.girl {
+  display: block;
+  margin: 0 auto 0 30%;
+  height: 320px;
+  mix-blend-mode: multiply;
+  background: transparent;
+}
